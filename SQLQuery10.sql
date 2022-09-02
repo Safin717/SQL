@@ -1,30 +1,30 @@
---1) Вывести контрагента, у которого больше всего заказов
-SELECT TOP 1 A.[Name], COUNT(*) AS 'Количество заказов'
+--1) Р’С‹РІРµСЃС‚Рё РєРѕРЅС‚СЂР°РіРµРЅС‚Р°, Сѓ РєРѕС‚РѕСЂРѕРіРѕ Р±РѕР»СЊС€Рµ РІСЃРµРіРѕ Р·Р°РєР°Р·РѕРІ
+SELECT TOP 1 A.[Name], COUNT(*) AS 'ГЉГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЄГ Г§Г®Гў'
 FROM [test1].dbo.[Order] O
 INNER JOIN [test1].dbo.[Account] A
 ON O.[AccountId] = A.[Id]
 GROUP BY A.[Name]
 ORDER BY 2 DESC
 
---2) Вывести контрагента, у которого сумма заказов максимальная
-SELECT TOP 1 A.[Name], SUM(O.[Amount]) AS 'Сумма'
+--2) Р’С‹РІРµСЃС‚Рё РєРѕРЅС‚СЂР°РіРµРЅС‚Р°, Сѓ РєРѕС‚РѕСЂРѕРіРѕ СЃСѓРјРјР° Р·Р°РєР°Р·РѕРІ РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ
+SELECT TOP 1 A.[Name], SUM(O.[Amount]) AS 'Г‘ГіГ¬Г¬Г '
 FROM [test1].dbo.[Order] O
 INNER JOIN [test1].dbo.[Account] A
 ON O.[AccountId] = A.[Id]
 GROUP BY A.[Name]
-ORDER BY 'Сумма' DESC
+ORDER BY 'Г‘ГіГ¬Г¬Г ' DESC
 
---3) Вывести сумму заказов за прошлый год. Значение «прошлый год» должно высчитываться
+--3) Р’С‹РІРµСЃС‚Рё СЃСѓРјРјСѓ Р·Р°РєР°Р·РѕРІ Р·Р° РїСЂРѕС€Р»С‹Р№ РіРѕРґ. Р—РЅР°С‡РµРЅРёРµ В«РїСЂРѕС€Р»С‹Р№ РіРѕРґВ» РґРѕР»Р¶РЅРѕ РІС‹СЃС‡РёС‚С‹РІР°С‚СЊСЃСЏ
 DECLARE @previousYear INT = (SELECT YEAR(GETDATE()) - 1);
 SELECT SUM([Amount])
 FROM [test1].dbo.[Order]
 WHERE YEAR([OrderDate]) = @previousYear;
 
---4) Вывести список контрагентов, которые сделали больше 1 заказа
+--4) Р’С‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє РєРѕРЅС‚СЂР°РіРµРЅС‚РѕРІ, РєРѕС‚РѕСЂС‹Рµ СЃРґРµР»Р°Р»Рё Р±РѕР»СЊС€Рµ 1 Р·Р°РєР°Р·Р°
 DECLARE @AccountOrders TABLE(AccountName NVARCHAR(500), OrderCount INT);
 
 INSERT INTO @AccountOrders
-SELECT A.[Name], COUNT(*) AS 'Количество заказов'
+SELECT A.[Name], COUNT(*) AS 'ГЉГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г§Г ГЄГ Г§Г®Гў'
 FROM [test1].dbo.[Order] O
 INNER JOIN [test1].dbo.[Account] A
 ON O.[AccountId] = A.[Id]
